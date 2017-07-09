@@ -1,9 +1,22 @@
 package main
 
 import (
-	"fmt"
+	"log"
+
+	"github.com/bitly/go-nsq"
 )
 
 func main() {
-	fmt.Println("hi")
+
+	config := nsq.NewConfig()
+	w, _ := nsq.NewProducer("127.0.0.1:4150", config)
+
+	err := w.Publish("write_test", []byte("test"))
+	if err != nil {
+		log.Panic("could not connect")
+
+	}
+
+	w.Stop()
+
 }
