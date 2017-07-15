@@ -1,13 +1,28 @@
-package main
+package logic
 
 import (
 	"log"
 	"sync"
 
-	nsq "github.com/bitly/go-nsq"
+	"github.com/bitly/go-nsq"
 )
 
-func main() {
+func producer() {
+
+	config := nsq.NewConfig()
+	w, _ := nsq.NewProducer("127.0.0.1:4150", config)
+
+	err := w.Publish("write_test", []byte("test"))
+	if err != nil {
+		log.Panic("could not connect")
+
+	}
+
+	w.Stop()
+
+}
+
+func consumer() {
 	wg := &sync.WaitGroup{}
 	wg.Add(1)
 
@@ -23,4 +38,8 @@ func main() {
 		log.Panic("could not connect")
 	}
 	wg.Wait()
+}
+
+func start() {
+	//go
 }
