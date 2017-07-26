@@ -7,12 +7,12 @@ import (
 	"github.com/bitly/go-nsq"
 )
 
-func producer() {
+func Producer(topic string, body []byte) {
 
 	config := nsq.NewConfig()
 	w, _ := nsq.NewProducer("127.0.0.1:4150", config)
 
-	err := w.Publish("write_test", []byte("test"))
+	err := w.Publish(topic, body)
 	if err != nil {
 		log.Panic("could not connect")
 
@@ -22,12 +22,12 @@ func producer() {
 
 }
 
-func consumer() {
+func Consumer() {
 	wg := &sync.WaitGroup{}
 	wg.Add(1)
 
 	config := nsq.NewConfig()
-	q, _ := nsq.NewConsumer("write_test", "ch", config)
+	q, _ := nsq.NewConsumer("event", "ch", config)
 	q.AddHandler(nsq.HandlerFunc(func(message *nsq.Message) error {
 		log.Printf("got a message: %v", message)
 		wg.Done()
