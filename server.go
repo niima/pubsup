@@ -27,6 +27,6 @@ func main() {
 	// 	fmt.Println(err)
 	// }
 	// fmt.Println(data)
-	//logic.Producer("event", []byte("hi im nima"))
+	logic.Producer("event", []byte("hi im nima"))
 	logic.Consumer()
 }
