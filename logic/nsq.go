@@ -1,12 +1,14 @@
 package logic
 
 import (
+	"errors"
 	"log"
 	"sync"
 
 	"github.com/bitly/go-nsq"
 )
 
+//Producer produce message for nsq
 func Producer(topic string, body []byte) {
 
 	config := nsq.NewConfig()
@@ -22,6 +24,7 @@ func Producer(topic string, body []byte) {
 
 }
 
+//Consumer is a method for consume messages from nsq
 func Consumer() {
 	wg := &sync.WaitGroup{}
 	wg.Add(1)
@@ -29,7 +32,16 @@ func Consumer() {
 	config := nsq.NewConfig()
 	q, _ := nsq.NewConsumer("event", "ch", config)
 	q.AddHandler(nsq.HandlerFunc(func(message *nsq.Message) error {
-		log.Printf("got a message: %v", message)
+		if len(message.Body) == 0 {
+			// returning an error results in the message being re-enqueued
+			// a REQ is sent to nsqd
+			return errors.New("body is blank re-enqueue message")
+		}
+
+		// Let's log our message!
+		//log.Print(message.Body)
+
+		log.Printf("got a message: %v", string(message.Body))
 		wg.Done()
 		return nil
 	}))
