@@ -5,13 +5,8 @@ import (
 
 	"github.com/labstack/echo"
 	"gitlab.pec.ir/cloud/sync-service/config"
+	"gitlab.pec.ir/cloud/sync-service/logic"
 )
-
-// "os"
-
-// "github.com/labstack/echo"
-// "gitlab.pec.ir/cloud/sync-service/config"
-//"gitlab.pec.ir/cloud/sync-service/db"
 
 func main() {
 	e := echo.New()
@@ -23,6 +18,8 @@ func main() {
 	if os.Getenv("PORT") != "" {
 		port = os.Getenv("PORT")
 	}
-	e.Logger.Fatal(e.Start(":" + port))
+
+	go logic.ConsumerPool()
+	go e.Logger.Fatal(e.Start(":" + port))
 
 }
