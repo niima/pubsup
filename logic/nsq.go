@@ -1,9 +1,8 @@
 package logic
 
 import (
-	"errors"
+	"fmt"
 	"log"
-	"sync"
 
 	"github.com/bitly/go-nsq"
 )
@@ -24,30 +23,41 @@ func NsqProducer(topic string, body []byte) {
 
 }
 
+func loop(inChan chan *nsq.Message, chanel string) {
+	for msg := range inChan {
+		SubscriberHandler(msg.Body, chanel)
+		fmt.Println(string(msg.Body) + "\n FROM CHANEL:" + chanel)
+		msg.Finish()
+	}
+}
+
 //NsqConsumer is a method for consume messages from nsq
-func NsqConsumer() {
-	wg := &sync.WaitGroup{}
-	wg.Add(1)
-
-	config := nsq.NewConfig()
-	q, _ := nsq.NewConsumer("event", "ch", config)
-	q.AddHandler(nsq.HandlerFunc(func(message *nsq.Message) error {
-		if len(message.Body) == 0 {
-			// returning an error results in the message being re-enqueued
-			// a REQ is sent to nsqd
-			return errors.New("body is blank re-enqueue message")
-		}
-
-		// Let's log our message!
-		//log.Print(message.Body)
-
-		log.Printf("got a message: %v", string(message.Body))
-		wg.Done()
+func NsqConsumer(topic string, chanel string) {
+	var reader *nsq.Consumer
+	var err error
+	inChan := make(chan *nsq.Message)
+	lookup := "127.0.0.1:4161"
+	conf := nsq.NewConfig()
+	conf.Set("maxInFlight", 1000)
+	reader, err = nsq.NewConsumer(topic, chanel, conf)
+	if err != nil {
+		fmt.Println(err)
+	}
+	reader.AddHandler(nsq.HandlerFunc(func(m *nsq.Message) error {
+		inChan <- m
 		return nil
 	}))
-	err := q.ConnectToNSQLookupd("127.0.0.1:4161")
+	err = reader.ConnectToNSQLookupd(lookup)
 	if err != nil {
-		log.Panic("could not connect")
+		fmt.Println(err)
 	}
-	wg.Wait()
+	go loop(inChan, chanel)
+	<-reader.StopChan
+}
+
+func ConsumerPool() {
+	go NsqConsumer("user", "social-service")
+	go NsqConsumer("user", "messaging-service")
+	go NsqConsumer("product", "search-service")
+	go NsqConsumer("product", "social-service")
 }

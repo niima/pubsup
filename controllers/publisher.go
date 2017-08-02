@@ -4,6 +4,7 @@ import (
 	"net/http"
 
 	"github.com/labstack/echo"
+	"gitlab.pec.ir/cloud/sync-service/logic"
 	"gitlab.pec.ir/cloud/sync-service/models"
 )
 
@@ -15,5 +16,6 @@ func Publish(c echo.Context) error {
 	if err := c.Bind(e); err != nil {
 		return err
 	}
+	logic.Publish(e.Tag, e.Data)
 	return c.JSON(http.StatusOK, e)
 }

@@ -1,9 +1,9 @@
 package models
 
-//Subscriber is the service who is subscribed to
-//special tag to be informed after each publish
+//Subscriber is the service which is subscribed to
+//a certain tag to be informed after each publish
 type Subscriber struct {
 	Tag    string
-	URL    string
+	Url    string
 	Method string
 }
