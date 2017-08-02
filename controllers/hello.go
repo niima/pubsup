@@ -4,6 +4,7 @@ import (
 	"net/http"
 
 	"github.com/labstack/echo"
+	"gitlab.pec.ir/cloud/sync-service/models"
 )
 
 type person struct {
@@ -14,7 +15,7 @@ type person struct {
 //EchoHello is test
 func EchoHello(c echo.Context) error {
 	// return c.JSON(http.StatusOK, "ok")
-	p := person{name: "hi", Email: "go"}
+	p := models.Envelop{Data: "123", Tag: "user"}
 	return c.JSON(http.StatusOK, p)
 }
 
