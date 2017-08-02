@@ -25,19 +25,4 @@ func main() {
 	}
 	e.Logger.Fatal(e.Start(":" + port))
 
-	// //------------bolt
-	// db.SetData([]byte("hi"), []byte("bye"))
-	// data, err := db.GetData([]byte("hi"))
-	// if err != nil {
-	// 	fmt.Println(err)
-	// }
-	// fmt.Println(data)
-<<<<<<< HEAD
-	logic.NsqProducer("event", []byte("hi im nima"))
-	logic.NsqConsumer()
-=======
-	// //------------nsq
-	// logic.Producer("event", []byte("hi im nima"))
-	// logic.Consumer()
->>>>>>> 363dd37973c3441ede2cb0759af1391edde114b9
 }
