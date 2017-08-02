@@ -8,8 +8,8 @@ import (
 	"github.com/bitly/go-nsq"
 )
 
-//Producer produce message for nsq
-func Producer(topic string, body []byte) {
+//NsqProducer produce message for nsq
+func NsqProducer(topic string, body []byte) {
 
 	config := nsq.NewConfig()
 	w, _ := nsq.NewProducer("127.0.0.1:4150", config)
@@ -24,8 +24,8 @@ func Producer(topic string, body []byte) {
 
 }
 
-//Consumer is a method for consume messages from nsq
-func Consumer() {
+//NsqConsumer is a method for consume messages from nsq
+func NsqConsumer() {
 	wg := &sync.WaitGroup{}
 	wg.Add(1)
 
@@ -50,8 +50,4 @@ func Consumer() {
 		log.Panic("could not connect")
 	}
 	wg.Wait()
-}
-
-func start() {
-	//go
 }
