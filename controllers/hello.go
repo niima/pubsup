@@ -24,3 +24,14 @@ func HelloName(c echo.Context) error {
 	name := c.QueryParam("name")
 	return c.String(http.StatusOK, "hello "+name)
 }
+
+//HelloPost is post sample handler
+func HelloPost(c echo.Context) error {
+	//name := c.QueryParam("name")
+	u := new(person)
+	if err := c.Bind(u); err != nil {
+		return err
+	}
+	return c.JSON(http.StatusOK, u)
+
+}
