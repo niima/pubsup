@@ -2,13 +2,6 @@ package logic
 
 import "gitlab.pec.ir/cloud/sync-service/models"
 
-//SubscriberHandler is the entrypoint for nsq, nsq need to call this method for
-func SubscriberHandler(msg []byte, sub *models.Subscriber) error {
-	//entrypoint
-	err := HTTPPost(sub.URL, msg)
-	return err
-}
-
 //ConsumerPool suppose to handle consumer processes and bind them to variuos http apis
 func ConsumerPool() {
 
@@ -43,4 +36,11 @@ func ConsumerPool() {
 		go NsqConsumer(&item)
 
 	}
+}
+
+//SubscriberHandler is the entrypoint for nsq, nsq need to call this method for
+func SubscriberHandler(msg []byte, sub *models.Subscriber) error {
+	//entrypoint
+	err := HTTPPost(sub.URL, msg)
+	return err
 }
