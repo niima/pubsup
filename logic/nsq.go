@@ -3,6 +3,9 @@ package logic
 import (
 	"fmt"
 	"log"
+	"time"
+
+	"gitlab.pec.ir/cloud/sync-service/models"
 
 	"github.com/bitly/go-nsq"
 )
@@ -23,41 +26,33 @@ func NsqProducer(topic string, body []byte) {
 
 }
 
-func loop(inChan chan *nsq.Message, chanel string) {
-	for msg := range inChan {
-		SubscriberHandler(msg.Body, chanel)
-		fmt.Println(string(msg.Body) + "\n FROM CHANEL:" + chanel)
-		msg.Finish()
-	}
-}
-
 //NsqConsumer is a method for consume messages from nsq
-func NsqConsumer(topic string, chanel string) {
+func NsqConsumer(sub *models.Subscriber) {
 	var reader *nsq.Consumer
 	var err error
-	inChan := make(chan *nsq.Message)
 	lookup := "127.0.0.1:4161"
 	conf := nsq.NewConfig()
 	conf.Set("maxInFlight", 1000)
-	reader, err = nsq.NewConsumer(topic, chanel, conf)
+	reader, err = nsq.NewConsumer(sub.Tag, sub.Chanel, conf)
 	if err != nil {
 		fmt.Println(err)
 	}
-	reader.AddHandler(nsq.HandlerFunc(func(m *nsq.Message) error {
-		inChan <- m
-		return nil
+
+	reader.AddHandler(nsq.HandlerFunc(func(msg *nsq.Message) error {
+		//output of this handler
+		err := SubscriberHandler(msg.Body, sub)
+		if err != nil {
+			msg.Requeue(10 * time.Second)
+			fmt.Println("MSG REQued")
+		} else {
+			fmt.Println(string(msg.Body) + "\n")
+			msg.Finish()
+		}
+		return err
 	}))
 	err = reader.ConnectToNSQLookupd(lookup)
 	if err != nil {
 		fmt.Println(err)
 	}
-	go loop(inChan, chanel)
 	<-reader.StopChan
-}
-
-func ConsumerPool() {
-	go NsqConsumer("user", "social-service")
-	go NsqConsumer("user", "messaging-service")
-	go NsqConsumer("product", "search-service")
-	go NsqConsumer("product", "social-service")
 }
