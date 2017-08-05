@@ -27,13 +27,14 @@ func NsqProducer(topic string, body []byte) {
 }
 
 //NsqConsumer is a method for consume messages from nsq
-func NsqConsumer(sub *models.Subscriber) {
+func NsqConsumer(sub models.Subscriber) {
 	var reader *nsq.Consumer
 	var err error
 	lookup := "127.0.0.1:4161"
 	conf := nsq.NewConfig()
 	conf.Set("maxInFlight", 1000)
 	reader, err = nsq.NewConsumer(sub.Tag, sub.Chanel, conf)
+	fmt.Println("new consumer " + sub.Chanel + "/" + sub.Tag)
 	if err != nil {
 		fmt.Println(err)
 	}
