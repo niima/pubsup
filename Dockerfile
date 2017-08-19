@@ -11,7 +11,7 @@ FROM alpine:3.5
 # We'll likely need to add SSL root certificates
 #RUN apk --no-cache add ca-certificates
 
-WORKDIR /usr/local/bin
+WORKDIR /
 
 COPY . .  
 CMD ["./app"]
