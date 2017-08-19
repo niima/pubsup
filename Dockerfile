@@ -1,10 +1,10 @@
-FROM golang:1.8-alpine AS builder
+# FROM golang:1.8-alpine AS builder
 
-WORKDIR /usr/src/app
+# WORKDIR /usr/src/app
 
-COPY . .
-RUN go-wrapper download
-RUN go build -v
+# COPY . .
+# RUN go-wrapper download
+# RUN go build -v
 
 FROM alpine:3.5
 
@@ -13,6 +13,6 @@ FROM alpine:3.5
 
 WORKDIR /usr/local/bin
 
-COPY --from=builder /usr/src/app/app .
+COPY . .  
 CMD ["./app"]
 
