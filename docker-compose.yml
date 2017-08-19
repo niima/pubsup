@@ -12,12 +12,29 @@ services:
     ports:
       - "4150:4150"
       - "4151:4151"
+    links:
+      - nsqlookupd
   nsqadmin:
     image: nsqio/nsq
     command: /nsqadmin --lookupd-http-address=nsqlookupd:4161
     ports:
       - "4171:4171"
-  redis:
-    image: redis
+    links:
+      - nsqlookupd
+  #redis:
+  #  image: redis
+  #  ports:
+  #    - "6379:6379"
+  #
+  app:
+    build: .
+    restart: always
+    #environment:
+    # - ELASTIC_HOSTS=elasticsearch:9200
     ports:
-      - "6379:6379"
+     - "30701:9000"
+    links:
+     - nsqlookupd
+     - nsqd
+    command: ["./app"]
+
