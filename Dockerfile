@@ -1,18 +1,32 @@
-# FROM golang:1.8-alpine AS builder
+#FROM golang:1.8 
 
-# WORKDIR /usr/src/app
+# ADD . /go/src/gitlab.pec.ir/cloud/sync-service
+# #COPY . /go/src/gitlab.pec.ir/cloud/sync-service
+# WORKDIR /go/src/gitlab.pec.ir/cloud/sync-service
+# RUN go get -v
+# RUN go install gitlab.pec.ir/cloud/sync-service 
 
-# COPY . .
-# RUN go-wrapper download
-# RUN go build -v
 
+#_-----------build outside-----------------
 FROM alpine:3.5
 
-# We'll likely need to add SSL root certificates
 #RUN apk --no-cache add ca-certificates
 
 WORKDIR /
+COPY ./sync-service /
+COPY ./config.json /
+RUN pwd
+RUN ls
+#CMD ["/sync-service"]
+ENTRYPOINT /sync-service
+# #_--------build in container-------------
 
-COPY . .  
-CMD ["./app"]
+# FROM golang
 
+# ADD . /go/src/gitlab.pec.ir/cloud/sync-service
+# #COPY . /go/src/gitlab.pec.ir/cloud/sync-service
+# WORKDIR /go/src/gitlab.pec.ir/cloud/sync-service
+# RUN go get -v
+# RUN go install gitlab.pec.ir/cloud/sync-service 
+# ENTRYPOINT /go/bin/sync-service
+ 
