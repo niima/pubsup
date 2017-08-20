@@ -3,6 +3,7 @@ package logic
 import (
 	"fmt"
 	"log"
+	"os"
 	"time"
 
 	"gitlab.pec.ir/cloud/sync-service/models"
@@ -12,9 +13,12 @@ import (
 
 //NsqProducer produce message for nsq
 func NsqProducer(topic string, body []byte) {
-
+	nsqdIP := "127.0.0.1"
+	if os.Getenv("NSQD_IP") != "" {
+		nsqdIP = os.Getenv("NSQD_IP")
+	}
 	config := nsq.NewConfig()
-	w, _ := nsq.NewProducer("127.0.0.1:4150", config)
+	w, _ := nsq.NewProducer(nsqdIP+":4150", config)
 
 	err := w.Publish(topic, body)
 	if err != nil {
@@ -28,9 +32,15 @@ func NsqProducer(topic string, body []byte) {
 
 //NsqConsumer is a method for consume messages from nsq
 func NsqConsumer(sub models.Subscriber) {
+
+	lookupIP := "127.0.0.1"
+	if os.Getenv("LOOKUP_IP") != "" {
+		lookupIP = os.Getenv("LOOKUP_IP")
+	}
+
 	var reader *nsq.Consumer
 	var err error
-	lookup := "127.0.0.1:4161"
+	lookup := lookupIP + ":4161"
 	conf := nsq.NewConfig()
 	conf.Set("maxInFlight", 1000)
 	reader, err = nsq.NewConsumer(sub.Tag, sub.Chanel, conf)

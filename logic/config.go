@@ -3,7 +3,7 @@ package logic
 import "gitlab.pec.ir/cloud/sync-service/models"
 import "gitlab.pec.ir/cloud/sync-service/db"
 
-const fILEADDRESS = "./config.json"
+const fILEADDRESS = "/config.json"
 
 //LoadConfig loads config from json file
 //retunrs subscriber model

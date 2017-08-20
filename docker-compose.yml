@@ -12,29 +12,28 @@ services:
     ports:
       - "4150:4150"
       - "4151:4151"
-    links:
-      - nsqlookupd
+     
   nsqadmin:
     image: nsqio/nsq
     command: /nsqadmin --lookupd-http-address=nsqlookupd:4161
     ports:
       - "4171:4171"
-    links:
-      - nsqlookupd
+     
   #redis:
   #  image: redis
   #  ports:
   #    - "6379:6379"
   #
-  app:
+  goapp:
     build: .
     restart: always
-    #environment:
-    # - ELASTIC_HOSTS=elasticsearch:9200
+    environment:
+     - NSQD_IP=nsqd
+     - LOOKUP_IP=nsqlookupd
     ports:
-     - "30701:9000"
+     - "9002:9002"
     links:
      - nsqlookupd
      - nsqd
-    command: ["./app"]
+    #command: ["/sync-service"]
 
