@@ -14,6 +14,8 @@ func HTTPPost(url string, postData []byte) error {
 	req, err := http.NewRequest("POST", url, bytes.NewBuffer(postData))
 	req.Header.Set("X-Custom-Header", "myvalue")
 	req.Header.Set("Content-Type", "application/json")
+	req.Header.Set("Authorization", `bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJuYW1laWQiOiJzeW5jLXNlcnZpY2UiLCJ1bmlxdWVfbmFtZSI6InN5bmMtc2VydmljZSIsInN1YiI6InN5bmMtc2VydmljZSIsImlzcyI6Imh0dHA6Ly9sb2NhbGhvc3QvIiwiYXVkIjoiYjlkYzcxMmM5NTJiNGFhZmI0ODFhYmVkZTBmZWM0ZDgiLCJleHAiOjk5OTk5OTk5OTksIm5iZiI6MTQ5NzE3ODI0NX0.2OVSsDT1kC5o6JaChZk_OZVUq_w-c-fB17sIP-kI92A
+eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJuYW1laWQiOiJzeW5jLXNlcnZpY2UiLCJ1bmlxdWVfbmFtZSI6InN5bmMtc2VydmljZSIsInN1YiI6InN5bmMtc2VydmljZSIsImlzcyI6Imh0dHA6Ly9sb2NhbGhvc3QvIiwiYXVkIjoiYjlkYzcxMmM5NTJiNGFhZmI0ODFhYmVkZTBmZWM0ZDgiLCJleHAiOjk5OTk5OTk5OTksIm5iZiI6MTQ5NzE3ODI0NX0.2OVSsDT1kC5o6JaChZk_OZVUq_w-c-fB17sIP-kI92A`)
 
 	client := &http.Client{}
 	resp, err := client.Do(req)
