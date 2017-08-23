@@ -7,9 +7,6 @@ import (
 
 //RegisterRoutes register routes
 func RegisterRoutes(e *echo.Echo) {
-	e.GET("/", controllers.EchoHello)
-	e.GET("/hello", controllers.HelloName)
-	e.POST("/hello", controllers.HelloPost)
 
 	//publish
 	e.POST("/publish", controllers.Publish)
