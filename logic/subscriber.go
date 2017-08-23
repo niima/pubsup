@@ -1,7 +1,11 @@
 package logic
 
-import "gitlab.pec.ir/cloud/sync-service/models"
-import "fmt"
+import (
+	"fmt"
+	"strings"
+
+	"gitlab.pec.ir/cloud/sync-service/models"
+)
 
 //ConsumerPool suppose to handle consumer processes and bind them to variuos http apis
 func ConsumerPool() {
@@ -44,6 +48,10 @@ func ConsumerPool() {
 //SubscriberHandler is the entrypoint for nsq, nsq need to call this method for
 func SubscriberHandler(msg []byte, sub models.Subscriber) error {
 	//entrypoint
-	err := HTTPPost(sub.URL, msg)
+	strMsg := string(msg)
+	s := strings.Split(strMsg, "|$|^|")
+	err := HTTPPost(sub.URL+s[0], sub.Method, []byte(s[1]))
+	fmt.Println("posted to" + sub.URL)
+
 	return err
 }
