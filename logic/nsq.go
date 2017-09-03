@@ -22,7 +22,9 @@ func NsqProducer(topic string, body []byte) error {
 
 	err := w.Publish(topic, body)
 	if err != nil {
-		log.Panic("could not connect")
+		log.Fatal("nima: could not connect" + nsqdIP)
+		log.Fatal("nima: " + err.Error())
+
 	}
 
 	w.Stop()
