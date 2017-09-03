@@ -13,7 +13,7 @@ func HTTPPost(url string, verb string, postData []byte) error {
 
 	req, err := http.NewRequest(verb, url, bytes.NewBuffer(postData))
 	req.Header.Set("Content-Type", "application/json")
-	req.Header.Set("Authorization", "bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJuYW1laWQiOiJzeW5jLXNlcnZpY2UiLCJ1bmlxdWVfbmFtZSI6InN5bmMtc2VydmljZSIsInN1YiI6InN5bmMtc2VydmljZSIsImlzcyI6Imh0dHA6Ly9sb2NhbGhvc3QvIiwiYXVkIjoiYjlkYzcxMmM5NTJiNGFhZmI0ODFhYmVkZTBmZWM0ZDgiLCJleHAiOjk5OTk5OTk5OTksIm5iZiI6MTQ5NzE3ODI0NX0.2OVSsDT1kC5o6JaChZk_OZVUq_w-c-fB17sIP-kI92A")
+	req.Header.Set("Authorization", "bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJuYW1laWQiOiIyNCIsInVuaXF1ZV9uYW1lIjoidW5rbm93bigyNCkiLCJzdWIiOiJ1bmtub3duKDI0KSIsImlzcyI6Imh0dHA6Ly9sb2NhbGhvc3QvIiwiYXVkIjoiYjlkYzcxMmM5NTJiNGFhZmI0ODFhYmVkZTBmZWM0ZDgiLCJleHAiOjk5MTUwNTY1OTQ1MiwibmJmIjoxNTA0NDQ5ODUyLCJpZCI6IjU5YWJmZWNhYjE2NDY4MWRkODM3OTM1NiIsInVzZXJuYW1lIjoibmltYSJ9.nH-2mVs4waZ3luq7LozZE8a1qvC-oK-ELCv_hFeDBT8")
 
 	client := &http.Client{}
 	resp, err := client.Do(req)
