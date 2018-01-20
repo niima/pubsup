@@ -19,6 +19,6 @@ func Publish(c echo.Context) error {
 	if e.Tag == "" || e.Data == "" {
 		return c.JSON(http.StatusBadRequest, nil)
 	}
-	logic.Publish(e.Tag, e.URLParam, e.Data)
+	go logic.Publish(e.Tag, e.URLParam, e.Data)
 	return c.JSON(http.StatusOK, e)
 }
