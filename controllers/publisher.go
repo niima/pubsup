@@ -3,9 +3,9 @@ package controllers
 import (
 	"net/http"
 
+	"git.raad.cloud/cloud/sync-service/logic"
+	"git.raad.cloud/cloud/sync-service/models"
 	"github.com/labstack/echo"
-	"gitlab.pec.ir/cloud/sync-service/logic"
-	"gitlab.pec.ir/cloud/sync-service/models"
 )
 
 //Publish is used by publishers, they publish data
@@ -19,6 +19,6 @@ func Publish(c echo.Context) error {
 	if e.Tag == "" || e.Data == "" {
 		return c.JSON(http.StatusBadRequest, nil)
 	}
-	logic.Publish(e.Tag, e.URLParam, e.Data)
+	go logic.Publish(e.Tag, e.URLParam, e.Data)
 	return c.JSON(http.StatusOK, e)
 }

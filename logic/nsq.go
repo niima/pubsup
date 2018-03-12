@@ -6,7 +6,7 @@ import (
 	"os"
 	"time"
 
-	"gitlab.pec.ir/cloud/sync-service/models"
+	"git.raad.cloud/cloud/sync-service/models"
 
 	"github.com/bitly/go-nsq"
 )
@@ -22,7 +22,9 @@ func NsqProducer(topic string, body []byte) error {
 
 	err := w.Publish(topic, body)
 	if err != nil {
-		log.Panic("could not connect")
+		log.Println("nima: could not connect" + nsqdIP)
+		log.Println("nima: " + err.Error())
+
 	}
 
 	w.Stop()

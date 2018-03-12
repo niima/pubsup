@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"strings"
 
-	"gitlab.pec.ir/cloud/sync-service/models"
+	"git.raad.cloud/cloud/sync-service/models"
 )
 
 //ConsumerPool suppose to handle consumer processes and bind them to variuos http apis
