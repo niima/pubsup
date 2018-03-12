@@ -1,7 +1,7 @@
 package logic
 
-import "gitlab.pec.ir/cloud/sync-service/models"
-import "gitlab.pec.ir/cloud/sync-service/db"
+import "git.raad.cloud/cloud/sync-service/models"
+import "git.raad.cloud/cloud/sync-service/db"
 
 const fILEADDRESS = "/config.json"
 

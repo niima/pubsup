@@ -6,7 +6,7 @@ import (
 	"os"
 	"time"
 
-	"gitlab.pec.ir/cloud/sync-service/models"
+	"git.raad.cloud/cloud/sync-service/models"
 
 	"github.com/bitly/go-nsq"
 )

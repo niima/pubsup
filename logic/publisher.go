@@ -10,5 +10,4 @@ func Publish(tag string, urlParam string, data string) error {
 	//log it
 	//produce nsq message
 	return NsqProducer(tag, []byte(urlParam+"|$|^|"+data))
-
 }

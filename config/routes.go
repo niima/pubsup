@@ -1,8 +1,8 @@
 package config
 
 import (
+	"git.raad.cloud/cloud/sync-service/controllers"
 	"github.com/labstack/echo"
-	"gitlab.pec.ir/cloud/sync-service/controllers"
 )
 
 //RegisterRoutes register routes

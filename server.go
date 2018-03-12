@@ -3,9 +3,9 @@ package main
 import (
 	"os"
 
+	"git.raad.cloud/cloud/sync-service/config"
+	"git.raad.cloud/cloud/sync-service/logic"
 	"github.com/labstack/echo"
-	"gitlab.pec.ir/cloud/sync-service/config"
-	"gitlab.pec.ir/cloud/sync-service/logic"
 )
 
 func main() {

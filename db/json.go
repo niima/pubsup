@@ -5,7 +5,7 @@ import (
 	"fmt"
 	"os"
 
-	"gitlab.pec.ir/cloud/sync-service/models"
+	"git.raad.cloud/cloud/sync-service/models"
 )
 
 //LoadConfiguration loads config file

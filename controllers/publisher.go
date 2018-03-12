@@ -3,9 +3,9 @@ package controllers
 import (
 	"net/http"
 
+	"git.raad.cloud/cloud/sync-service/logic"
+	"git.raad.cloud/cloud/sync-service/models"
 	"github.com/labstack/echo"
-	"gitlab.pec.ir/cloud/sync-service/logic"
-	"gitlab.pec.ir/cloud/sync-service/models"
 )
 
 //Publish is used by publishers, they publish data
