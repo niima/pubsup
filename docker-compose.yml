@@ -1,21 +1,25 @@
-version: '2'
+version: '3'
 services:
   nsqlookupd:
-    image: nsqio/nsq
+    image: nsqio/nsq:v1.0.0-compat
     command: /nsqlookupd
     ports:
       - "4160:4160"
       - "4161:4161"
   nsqd:
-    image: nsqio/nsq
+    image: nsqio/nsq:v1.0.0-compat
     command: /nsqd --lookupd-tcp-address=nsqlookupd:4160
+    depends_on:
+      - nsqlookupd
     ports:
       - "4150:4150"
       - "4151:4151"
      
   nsqadmin:
-    image: nsqio/nsq
+    image: nsqio/nsq:v1.0.0-compat
     command: /nsqadmin --lookupd-http-address=nsqlookupd:4161
+    depends_on:
+      - nsqlookupd
     ports:
       - "4171:4171"
      
@@ -27,6 +31,8 @@ services:
   goapp:
     build: .
     restart: always
+    depends_on:
+      - nsqlookupd  
     environment:
      - NSQD_IP=nsqd
      - LOOKUP_IP=nsqlookupd
