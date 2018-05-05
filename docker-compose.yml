@@ -11,6 +11,8 @@ services:
     command: /nsqd --lookupd-tcp-address=nsqlookupd:4160
     depends_on:
       - nsqlookupd
+    volumes:
+     - /docker/nsq/data:/data
     ports:
       - "4150:4150"
       - "4151:4151"
@@ -22,17 +24,12 @@ services:
       - nsqlookupd
     ports:
       - "4171:4171"
-     
-  #redis:
-  #  image: redis
-  #  ports:
-  #    - "6379:6379"
-  #
+      
   goapp:
     build: .
     restart: always
     depends_on:
-      - nsqlookupd  
+      - nsqlookupd
     environment:
      - NSQD_IP=nsqd
      - LOOKUP_IP=nsqlookupd

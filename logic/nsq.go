@@ -69,3 +69,17 @@ func NsqConsumer(sub models.Subscriber) {
 	}
 	<-reader.StopChan
 }
+
+//PreCreateTopics used to initiate topics
+func PreCreateTopics(sub models.Subscriber) {
+	lookupIP := "127.0.0.1"
+	if os.Getenv("LOOKUP_IP") != "" {
+		lookupIP = os.Getenv("LOOKUP_IP")
+	}
+	lookup := lookupIP + ":4161"
+	err := HTTPPost(lookup+"/topic/create?topic="+sub.Tag, "POST", nil)
+	if err != nil {
+		log.Println("nima: " + err.Error())
+	}
+	return
+}
