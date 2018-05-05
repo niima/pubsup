@@ -77,7 +77,7 @@ func PreCreateTopics(sub models.Subscriber) {
 		lookupIP = os.Getenv("LOOKUP_IP")
 	}
 	lookup := lookupIP + ":4161"
-	err := HTTPPost(lookup+"/topic/create?topic="+sub.Tag, "POST", nil)
+	err := HTTPPost("http://"+lookup+"/topic/create?topic="+sub.Tag, "POST", nil)
 	if err != nil {
 		log.Println("nima: " + err.Error())
 	}
