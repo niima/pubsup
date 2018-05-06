@@ -40,6 +40,7 @@ func ConsumerPool() {
 	subs := LoadConfig()
 	for _, item := range subs {
 		fmt.Println(item.Chanel)
+		go PreCreateTopics(item)
 		go NsqConsumer(item)
 
 	}
