@@ -22,8 +22,8 @@ func NsqProducer(topic string, body []byte) error {
 
 	err := w.Publish(topic, body)
 	if err != nil {
-		log.Fatal("nima: could not connect" + nsqdIP)
-		log.Fatal("nima: " + err.Error())
+		log.Println("nima: could not connect" + nsqdIP)
+		log.Println("nima: " + err.Error())
 
 	}
 
