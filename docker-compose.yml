@@ -1,13 +1,13 @@
 version: '3'
 services:
   nsqlookupd:
-    image: nsqio/nsq:v1.0.0-compat
+    image: nsqio/nsq:v1.1.0
     command: /nsqlookupd
     ports:
       - "4160:4160"
       - "4161:4161"
   nsqd:
-    image: nsqio/nsq:v1.0.0-compat
+    image: nsqio/nsq:v1.1.0
     command: /nsqd --lookupd-tcp-address=nsqlookupd:4160
     depends_on:
       - nsqlookupd
@@ -18,7 +18,7 @@ services:
       - "4151:4151"
      
   nsqadmin:
-    image: nsqio/nsq:v1.0.0-compat
+    image: nsqio/nsq:v1.1.0
     command: /nsqadmin --lookupd-http-address=nsqlookupd:4161
     depends_on:
       - nsqlookupd
