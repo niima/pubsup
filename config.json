@@ -1,0 +1,14 @@
+[
+    {
+        "tag":    "new_account",
+        "chanel": "search-service",
+        "url":    "http://search-api/account",
+        "method": "POST"
+    },
+    {
+        "tag":    "delete_account",
+        "chanel": "search-service",
+        "url":    "http://search-api/account",
+        "method": "DELETE"
+    }
+]
