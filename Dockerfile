@@ -1,11 +1,21 @@
-FROM alpine:3.5
+FROM golang:1.10.4 AS builder
 
-RUN apk --no-cache add ca-certificates
+ARG PROJECT
 
+COPY . /go/src/github.com/niima/${PROJECT}
 
-COPY ./sync-service /
-COPY ./config.json /
+WORKDIR /go/src/github.com/niima/${PROJECT}
 
-WORKDIR /
+RUN go get -v
 
-ENTRYPOINT /sync-service
+RUN CGO_ENABLED=0 go build -v -o /go/bin/app
+
+FROM alpine:3.7 AS app
+
+ARG PROJECT
+
+COPY --from=builder /go/bin/app /
+
+RUN chmod +x /app
+
+ENTRYPOINT /app
